@@ -12,7 +12,7 @@
   --hue: 150;
   /*HSL color mode*/
   --base-color: hsl(var(--hue) 60% 45%);
-  --base-color-second: hsl(var(--hue)65% 88%);
+  --base-color-second: hsl(var(--hue)30% 90%);
   --base-color-alt: hsl(var(--hue)57% 53%);
   --title-color: hsl(var(--hue)41% 10%);
   --text-color: hsl(0 0% 46%);
@@ -64,38 +64,48 @@ main{
   padding: 5rem 1rem;
 }
 
-.graph-cards .card{
-  padding:  1.5rem 0;
-  border-radius: .3rem;
-}
 
+/*TOTAL CARDS*/
 .total-values-cards{
   display: flex;
-  align-items: center;
   justify-content: flex-start;
 
 }
 
 .total-values-cards .card{
+  display: grid;
+  width: 310px;
+  height: 300px;
   margin-right: 1.5rem;
-  padding: 1.5rem 5rem;
   border-radius: .3rem;
-  background-color: white;
+  background-color: var(--body-color);
 }
 
-.total-values-cards .card:nth-child(1){
+.total-values-cards .total-values .box-card{
+  padding: 1.5rem;
+  border-radius: .5rem;
+}
+
+.total-values-cards .total-values .total-gain{
+  margin-bottom: 0.75rem;
   color: var(--text-color-light);
   background-color: var(--base-color);
 }
-
-.total-values-cards .card p{
-  justify-content: start;
-  padding: 0.75rem 0;
+.total-values-cards .total-values .total-gasto{
+  background-color: var(--base-color-second);
 }
 
 .total-values-cards .card p:nth-child(2){
   font: 700 2rem var(--title-font);
+}
 
+.total-values-cards .graph-card{
+  margin-right: 1.5rem;
+}
+
+
+.graph-cards .card{
+  padding:  1.5rem 0;
 }
 
 

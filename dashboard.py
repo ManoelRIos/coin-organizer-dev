@@ -1,3 +1,6 @@
+from optparse import Values
+from pydoc import classname
+from turtle import width
 from dash import Dash, html, dcc
 import pandas as pd
 import plotly.express as px
@@ -14,10 +17,11 @@ geral_information_bar = px.bar(co_db, x = 'Data', y = 'Valor', color = 'Categori
 #plotando gráfico de torta com valores x categoria
 value_to_categoria_pie = co_db.groupby(by = 'Categoria').sum()
 
+#PLotando gráfico de barra valores x categoria
 fig_bar = px.bar(value_to_categoria_pie, x = value_to_categoria_pie.index,
                  y = 'Valor', color=value_to_categoria_pie.index, title='Gastos por categoria')
 
-#PLotando gráfico de barra valores x categoria
+#PLotando gráfico de torta valores x categoria
 fig_pie = px.pie(value_to_categoria_pie,
                  values='Valor', names= value_to_categoria_pie.index, title='Gastos por categoria')
 
@@ -25,6 +29,14 @@ fig_pie = px.pie(value_to_categoria_pie,
 total_recebido = co_db['Valor'].where(co_db['Valor'] > 0).sum()
 #Somando total de gastos
 total_gasto = co_db['Valor'].where( co_db['Valor'] < 0 ).sum() * (-1)
+#Sobra do mês
+sobra_caixa = total_recebido - total_gasto
+#Criando dataframe com dados de gastos totais, ganhos totais e sobras
+total = pd.DataFrame({'Total': ['Gasto', 'Ganho','Sobra'],
+                      'Valor':[total_gasto, total_recebido, sobra_caixa]})
+fig_total_relation_hist = px.histogram(total, x="Total", y="Valor", color="Total", width=310, height=300)
+
+fig_total_relation_pie = px.pie(total, values='Valor', names='Total', width=310, height=300, title='Total de ganhos e gastos %')
 
 #Criando html do dashboard html-doc: https://dash.plotly.com/dash-html-components
 app.layout = html.Div([
@@ -49,20 +61,31 @@ app.layout = html.Div([
                 children=[
                     
                     html.Div(
-                        className="total-gain card",
+                        className="total-values card",
                         children=[
-                            html.P("Ganhos"),
-                            html.P("R$ " + str(total_recebido))                        
+                            html.Div(
+                                className="total-gain box-card",
+                                children=[
+                                    html.P("Ganhos"),
+                                    html.P("R$ " + str(total_recebido))   
+                                ]
+                            ),
+                            html.Div(
+                                className="total-gasto box-card",
+                                children=[
+                                    html.P("Gastos"),
+                                    html.P("R$" + str(total_gasto))                                    
+                                ]                            
+                            )
                         ]
+                    ),                                                                
+                    dcc.Graph(
+                        className="fig-total-relation-hist graph-card",                                    
+                        figure=fig_total_relation_hist            
                     ),
-                    
-                    html.Div(
-                        className="total-gasto card",
-                        children=[
-                            html.P("Gastos"),
-                            html.P("R$" + str(total_gasto))
-                            
-                        ]
+                    dcc.Graph(
+                        className="fig-total-reltion-pie graph-card",
+                        figure=fig_total_relation_pie
                     )                                        
                 ]            
             ),
