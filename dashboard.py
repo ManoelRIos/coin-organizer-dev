@@ -26,22 +26,46 @@ total_recebido = co_db['Valor'].where(co_db['Valor'] > 0).sum()
 #Somando total de gastos
 total_gasto = co_db['Valor'].where( co_db['Valor'] < 0 ).sum() * (-1)
 
-#Criando html do dashboard
+#Criando html do dashboard html-doc: https://dash.plotly.com/dash-html-components
 app.layout = html.Div([
     html.Header(
         children=[
-            html.H2("Plotly Dash" , className="logo")
+            html.Div(
+                className="logo",
+                children=[
+                    html.Span("Coin"),
+                    html.Span("Organize.")
+                ]
+            )
         ]
     ),
     
     html.Main(
-        className="main",
+        className="",
         children=[
             
-            html.H2(
-                "Total gasto: " + str(total_gasto)),
-            html.H2("Total recebido: " + str(total_recebido), className="text-received"),
-            
+            html.Div(
+                className="total-values-cards",
+                children=[
+                    
+                    html.Div(
+                        className="total-gain card",
+                        children=[
+                            html.P("Ganhos"),
+                            html.P("R$ " + str(total_recebido))                        
+                        ]
+                    ),
+                    
+                    html.Div(
+                        className="total-gasto card",
+                        children=[
+                            html.P("Gastos"),
+                            html.P("R$" + str(total_gasto))
+                            
+                        ]
+                    )                                        
+                ]            
+            ),
             html.Div(
                 className=("graph-cards"),
                 children=[
@@ -55,20 +79,7 @@ app.layout = html.Div([
                         id="pie-graph",
                         figure=fig_bar
                     ),
-                    ]
-            ),
-            
-            #Forma de formatação para futuras ideias
-            dcc.Markdown('''                                       
-                         #### Dash and Markdown
-                         
-                         Dash supports [Markdown](http://commonmark.org/help).
-
-                         Markdown is a simple way to write and format text.
-                         It includes a syntax for things like **bold text** and *italics*,
-                         [links](http://commonmark.org/help), inline `code` snippets, lists,
-                         quotes, and more.
-                         '''
+                ]
             )
         ]
     )
