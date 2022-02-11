@@ -1,0 +1,62 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root{
+  /*---VARIABLES------*/
+  --header-height: 4.5rem;
+
+  /*---COLORS------*/
+  --hue: 150;
+  /*HSL color mode*/
+  --base-color: hsl(var(--hue) 36% 57%);
+  --base-color-second: hsl(var(--hue)65% 88%);
+  --base-color-alt: hsl(var(--hue)57% 53%);
+  --title-color: hsl(var(--hue)41% 10%);
+  --text-color: hsl(0 0% 46%);
+  --text-color-light: hsl(0 0% 98%);
+  --body-color:hsl(0 0% 98%);  
+
+  /*---FONTS------*/
+  --title-font-size: 1.875rem;
+  --subtitle-font-size: 1rem;
+
+  --title-font: 'Poppins', sans-serif;
+  --body-font: 'DM Sans', sans-serif;
+}
+
+html{
+  background-color: var(--body-color);
+}
+
+/*---HEADER---*/
+.header {
+  border-bottom: 1px solid #e4e4e4;
+  margin-bottom: 2rem;
+  display: flex;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  background-color: var(--body-color);
+  width: 100%;
+}
+
+.header .logo {
+  font-size: 2rem;
+  margin: 1rem;
+}
+
+/*---MAIN---*/
+.main{
+  margin: 1rem;
+  z-index: 0;
+  padding-bottom: 5rem;
+}
+
+.text-received{
+  font-size: 1rem;
+}
