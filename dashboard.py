@@ -10,6 +10,12 @@ app = Dash(__name__)
 #Abrindo base de dados em csv
 co_db = pd.read_csv("co_db.csv")
 
+
+def plotBarGraph(column_x, column_y, color_column):
+    graph = px.bar(co_db, x = column_x, y = column_y, color=color_column)
+    return graph
+    
+geral_information_bar = plotBarGraph('Data', 'Categoria')
 #Plotando gráfico de barra com os dados gerais valor x data
 geral_information_bar = px.bar(co_db,
                                x = 'Data',
@@ -17,7 +23,6 @@ geral_information_bar = px.bar(co_db,
                                color = 'Categoria',
                                width=1920
                                )
-
 
 #plotando gráfico de torta com valores x categoria
 value_to_categoria_pie = co_db.groupby(by = 'Categoria').sum()
@@ -27,7 +32,8 @@ fig_bar = px.bar(value_to_categoria_pie,
                  x = value_to_categoria_pie.index,
                  y = 'Valor',
                  color=value_to_categoria_pie.index,
-                 title='Gastos por categoria')
+                 title='Gastos por categoria',
+                 height=720)
 
 #PLotando gráfico de torta valores x categoria
 fig_pie = px.pie(value_to_categoria_pie,
