@@ -67,8 +67,8 @@ main{
 
 /*TOTAL CARDS*/
 .total-values-cards{
-  display: flex;
-  justify-content: flex-start;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
 
 }
 
@@ -76,7 +76,6 @@ main{
   display: grid;
   width: 310px;
   height: 300px;
-  margin-right: 1.5rem;
   border-radius: .3rem;
   background-color: var(--body-color);
 }

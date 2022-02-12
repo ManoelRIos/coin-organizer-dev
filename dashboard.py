@@ -1,6 +1,6 @@
 from optparse import Values
 from pydoc import classname
-from turtle import width
+from turtle import color, width
 from dash import Dash, html, dcc
 import pandas as pd
 import plotly.express as px
@@ -11,24 +11,35 @@ app = Dash(__name__)
 co_db = pd.read_csv("co_db.csv")
 
 #Plotando gráfico de barra com os dados gerais valor x data
-geral_information_bar = px.bar(co_db, x = 'Data', y = 'Valor', color = 'Categoria')
+geral_information_bar = px.bar(co_db,
+                               x = 'Data',
+                               y = 'Valor', 
+                               color = 'Categoria',
+                               width=1920
+                               )
 
 
 #plotando gráfico de torta com valores x categoria
 value_to_categoria_pie = co_db.groupby(by = 'Categoria').sum()
 
 #PLotando gráfico de barra valores x categoria
-fig_bar = px.bar(value_to_categoria_pie, x = value_to_categoria_pie.index,
-                 y = 'Valor', color=value_to_categoria_pie.index, title='Gastos por categoria')
+fig_bar = px.bar(value_to_categoria_pie, 
+                 x = value_to_categoria_pie.index,
+                 y = 'Valor',
+                 color=value_to_categoria_pie.index,
+                 title='Gastos por categoria')
 
 #PLotando gráfico de torta valores x categoria
 fig_pie = px.pie(value_to_categoria_pie,
-                 values='Valor', names= value_to_categoria_pie.index, title='Gastos por categoria')
+                 values='Valor',
+                 names= value_to_categoria_pie.index, 
+                 width=310, height=300,
+                 title='Gastos por categoria')
 
 #Somando total recebido
-total_recebido = co_db['Valor'].where(co_db['Valor'] > 0).sum()
+total_recebido = round(co_db['Valor'].where(co_db['Valor'] > 0).sum(), 2)
 #Somando total de gastos
-total_gasto = co_db['Valor'].where( co_db['Valor'] < 0 ).sum() * (-1)
+total_gasto =round(co_db['Valor'].where( co_db['Valor'] < 0 ).sum() * (-1), 2)
 #Sobra do mês
 sobra_caixa = total_recebido - total_gasto
 #Criando dataframe com dados de gastos totais, ganhos totais e sobras
@@ -86,7 +97,7 @@ app.layout = html.Div([
                     dcc.Graph(
                         className="fig-total-reltion-pie graph-card",
                         figure=fig_total_relation_pie
-                    )                                        
+                    )                  
                 ]            
             ),
             html.Div(
