@@ -10,12 +10,24 @@ app = Dash(__name__)
 #Abrindo base de dados em csv
 co_db = pd.read_csv("co_db.csv")
 
+#Somando total recebido
+total_recebido = round(co_db['Valor'].where(co_db['Valor'] > 0).sum(), 2)
+#Somando total de gastos
+total_gasto =round(co_db['Valor'].where( co_db['Valor'] < 0 ).sum() * (-1), 2)
+#Sobra do mês
+sobra_caixa = total_recebido - total_gasto
+#Criando dataframe com dados de gastos totais, ganhos totais e sobras
+total = pd.DataFrame({'Total': ['Gasto', 'Ganho','Sobra'],
+                      'Valor':[total_gasto, total_recebido, sobra_caixa]})
 
-def plotBarGraph(column_x, column_y, color_column):
-    graph = px.bar(co_db, x = column_x, y = column_y, color=color_column)
-    return graph
-    
-geral_information_bar = plotBarGraph('Data', 'Categoria')
+fig_total_relation_hist = px.histogram(total,
+                                       x="Total",
+                                       y="Valor",
+                                       color="Total",
+                                       width=310, height=300)
+
+fig_total_relation_pie = px.pie(total, values='Valor', names='Total', width=310, height=300, title='Total de ganhos e gastos %')
+
 #Plotando gráfico de barra com os dados gerais valor x data
 geral_information_bar = px.bar(co_db,
                                x = 'Data',
@@ -42,18 +54,7 @@ fig_pie = px.pie(value_to_categoria_pie,
                  width=310, height=300,
                  title='Gastos por categoria')
 
-#Somando total recebido
-total_recebido = round(co_db['Valor'].where(co_db['Valor'] > 0).sum(), 2)
-#Somando total de gastos
-total_gasto =round(co_db['Valor'].where( co_db['Valor'] < 0 ).sum() * (-1), 2)
-#Sobra do mês
-sobra_caixa = total_recebido - total_gasto
-#Criando dataframe com dados de gastos totais, ganhos totais e sobras
-total = pd.DataFrame({'Total': ['Gasto', 'Ganho','Sobra'],
-                      'Valor':[total_gasto, total_recebido, sobra_caixa]})
-fig_total_relation_hist = px.histogram(total, x="Total", y="Valor", color="Total", width=310, height=300)
 
-fig_total_relation_pie = px.pie(total, values='Valor', names='Total', width=310, height=300, title='Total de ganhos e gastos %')
 
 #Criando html do dashboard html-doc: https://dash.plotly.com/dash-html-components
 app.layout = html.Div([
