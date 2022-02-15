@@ -132,13 +132,12 @@ app.layout = html.Div([
                                 y = value_to_categoria_pie['Valor'], 
                                 text = value_to_categoria_pie['Valor'],
                                 texttemplate = 'R$' + '%{text:,.0f}',
-                                textposition = 'inside',
                                 marker = dict(color  = value_to_categoria_pie['Color'] ),
                                 width = 0.5,                                
                                 textfont = dict(
                                     family = 'Arial Black',
                                     size = 14,
-                                    color = 'white',                                
+                                    color = 'black',                                
                                 ),
                                 orientation = 'v',
                                 hoverinfo = 'skip'                                                          
