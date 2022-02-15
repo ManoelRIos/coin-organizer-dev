@@ -8,12 +8,12 @@ import numpy as np
 app = Dash(__name__)
 
 #Abrindo base de dados em csv
-co_db = pd.read_csv("co_db.csv")
+db = pd.read_csv("db/db.csv")
 
 #Somando total recebido
-total_recebido = round(co_db['Valor'].where(co_db['Valor'] > 0).sum(), 2)
+total_recebido = round(db['Valor'].where(db['Valor'] > 0).sum(), 2)
 #Somando total de gastos
-total_gasto =round(co_db['Valor'].where( co_db['Valor'] < 0 ).sum() * (-1), 2)
+total_gasto =round(db['Valor'].where( db['Valor'] < 0 ).sum() * (-1), 2)
 #Sobra do mês
 sobra_caixa = total_recebido - total_gasto
 #Criando dataframe com dados de gastos totais, ganhos totais e sobras
@@ -29,7 +29,7 @@ fig_total_relation_hist = px.histogram(total,
 fig_total_relation_pie = px.pie(total, values='Valor', names='Total', width=310, height=300, title='Total de ganhos e gastos %')
 
 #Plotando gráfico de barra com os dados gerais valor x data
-geral_information_bar = px.bar(co_db,
+geral_information_bar = px.bar(db,
                                x = 'Data',
                                y = 'Valor', 
                                color = 'Categoria',
@@ -37,7 +37,7 @@ geral_information_bar = px.bar(co_db,
                                )
 
 #plotando gráfico de torta com valores x categoria
-value_to_categoria_pie = co_db.groupby(by = 'Categoria').sum()
+value_to_categoria_pie = db.groupby(by = 'Categoria').sum()
 
 #PLotando gráfico de barra valores x categoria
 fig_bar = px.bar(value_to_categoria_pie, 

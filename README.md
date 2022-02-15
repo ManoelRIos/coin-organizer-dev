@@ -20,10 +20,19 @@
  <img src="./.github/banner.PNG">
 </p>
 
+## 🚀 Tecnologias
+
+Esse projeto foi desenvolvido com as seguintes tecnologias:
+
+- Python
+- CSS
+- Python notebook
+
 
 ## 💻 Projeto
 
 O CoinOrganize, é um projeto para organizar suas finanças.
+
 
 ## Licença
 
