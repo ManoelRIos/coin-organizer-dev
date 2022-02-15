@@ -1,5 +1,5 @@
 <h1 align="center">
-  <span>Coin</span><span style="color: #2EB873 ">Origin.</span>
+  <span>Coin</span><span style="color: #2EB873 ">Organize.</span>
 </h1>
 
 <p align="center">
