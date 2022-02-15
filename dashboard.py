@@ -1,9 +1,9 @@
-from optparse import Values
-from pydoc import classname
-from turtle import color, width
+from turtle import width
 from dash import Dash, html, dcc
 import pandas as pd
 import plotly.express as px
+import plotly.graph_objs as go
+import numpy as np
 
 app = Dash(__name__)
 
@@ -53,6 +53,8 @@ fig_pie = px.pie(value_to_categoria_pie,
                  names= value_to_categoria_pie.index, 
                  width=310, height=300,
                  title='Gastos por categoria')
+
+value_to_categoria_pie['Color'] = np.where(value_to_categoria_pie['Valor'] > 0, '#2eb873', '#EF553B')
 
 
 
@@ -120,6 +122,63 @@ app.layout = html.Div([
                         id="pie-graph",
                         figure=fig_bar
                     ),
+                    
+                    dcc.Graph(
+                        className="card",
+                        config = {'displayModeBar': False},
+                        figure={
+                            'data': [go.Bar(                                
+                                x = value_to_categoria_pie.index,
+                                y = value_to_categoria_pie['Valor'], 
+                                text = value_to_categoria_pie['Valor'],
+                                texttemplate = 'R$' + '%{text:,.0f}',
+                                textposition = 'inside',
+                                marker = dict(color  = value_to_categoria_pie['Color'] ),
+                                width = 0.5,                                
+                                textfont = dict(
+                                    family = 'Arial Black',
+                                    size = 14,
+                                    color = 'white',                                
+                                ),
+                                orientation = 'v',
+                                hoverinfo = 'skip'                                                          
+                            )],
+                            'layout': go.Layout(                                                                                 
+                                plot_bgcolor = 'rgba(50,150,200,0.13)',
+                                title = {'text': 'Valor x Categoria',
+                                         'y': 0.97,
+                                         'x': 0.5,
+                                         'xanchor':'center',
+                                         'yanchor': 'top'},
+                                titlefont = {'color': 'black',
+                                             'size': 15},  
+                                margin = dict(r = 20, t = 50, b = 50),                                
+                                xaxis = dict(title = '<br></br>',
+                                             visible = True,
+                                             color = 'white',
+                                             showline=True,                                            
+                                             showgrid = False,
+                                             showticklabels = True,
+                                             linecolor = 'white',
+                                             linewidth = 1,
+                                             ticks = '',
+                                             tickfont = dict(family = 'Arial',
+                                                             size = 12,
+                                                             color= 'black')                                             
+                                ),
+                                yaxis = dict(showgrid = False,
+                                             linecolor = 'white',
+                                             linewidth = 1,
+                                             ticks = '',
+                                             tickfont = dict(
+                                                 family = 'Aial',
+                                                 size = 12,
+                                                 color = 'white'
+                                            )
+                                )                                                               
+                            )                                     
+                        }
+                    )                
                 ]
             )
         ]
@@ -128,3 +187,4 @@ app.layout = html.Div([
 
 if __name__ == '__main__':
     app.run_server(debug=True)
+    
