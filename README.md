@@ -27,6 +27,7 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 - Python
 - CSS
 - Python notebook
+- Flask
 
 
 ## 💻 Projeto
